@@ -11,15 +11,15 @@ const routes = [
       title: '首页'
     },
     component: () => import('./views/Home.vue')
-  },
-  {
-    path: '/about',
-    name: 'about',
-    meta: {
-      title: '关于我们'
-    },
-    component: () => import('./views/About.vue')
   }
+  // {
+  //   path: '/about',
+  //   name: 'about',
+  //   meta: {
+  //     title: '关于我们'
+  //   },
+  //   component: () => import('./views/About.vue')
+  // }
 ]
 
 // add route path
@@ -28,7 +28,7 @@ routes.forEach(route => {
 })
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })

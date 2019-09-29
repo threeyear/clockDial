@@ -1,40 +1,44 @@
 <template>
   <div class="home">
-    <!-- <img class="image" src="./../assets/img/cat.jpg" alt="" srcset=""> -->
     <div class="banner">
       <img src="./../assets/img/theme.png" alt="" srcset="">
     </div>
-    <van-tabs type="card">
-      <van-tab title="方形">
+    <van-tabs type="card" @change="handleTabChange">
+      <van-tab title="方形" name="square">
         <div class="backg">
+          <!-- <van-icon size="30px" name="arrow-left"/><van-icon size="30px" name="arrow"/> -->
           <div class="onlineguidance-img">
-            <van-swipe :autoplay="3000" indicator-color="white" @change="onChange">
+            <van-swipe indicator-color="#000" @change="onChange">
               <van-swipe-item v-for="(item, index) in swiperImages" :key="index">
                 <a :href="item.swiperSrc">
                   <img class="img1" :src="item.swiperSrc" alt="加载失败" />
                 </a>
               </van-swipe-item>
+              <div>
+                <img src="" alt="" srcset="">
+              </div>
             </van-swipe>
         </div>
-        <img class="kuang" src="./../assets/img/button.gif" alt="" @click="handleClick">
-        <!-- <span class="kuang">长按保存图片</span> -->
-        <!-- <van-button type="primary" @click="handleClick">点击保存图片</van-button> -->
+        
+        <span class="kuang">长按保存图片</span>
+        <!-- <img class="kuang" src="./../assets/img/button.gif" alt="" @click="handleClick"> -->
         </div>
       </van-tab>
-      <van-tab title="圆形">
+      <van-tab title="圆形" name="circle">
         <div class="backg backg2">
           <div class="onlineguidance-img">
-            <van-swipe :autoplay="3000" indicator-color="white" @change="onChange">
+            <!-- <van-icon size="30px" name="arrow-left"/><van-icon size="30px" name="arrow"/> -->
+            <van-swipe indicator-color="#000" @change="onChange">
               <van-swipe-item v-for="(item, index) in swiperImages2" :key="index">
-                <a :href="item.swiperSrc2">
-                  <img class="img2" :src="item.swiperSrc2" alt="加载失败" />
+                <a :href="item.swiperSrc">
+                  <img class="img2" :src="item.swiperSrc" alt="加载失败" />
                 </a>
               </van-swipe-item>
             </van-swipe>
+            
         </div>
-        <img class="kuang" src="./../assets/img/button.gif" alt="" @click="handleClick">
-        <!-- <span class="kuang">长按保存图片</span>  -->
-        <!-- <van-button type="primary" @click="handleClick">点击保存图片</van-button> -->
+        <span class="kuang">长按保存图片</span>
+        <!-- <img class="kuang" src="./../assets/img/button.gif" alt="" @click="handleClick"> -->
         </div>
       </van-tab>
     </van-tabs>
@@ -48,11 +52,12 @@
       <p class="neirong">关注【联通eSIM智能穿戴设备】公众号<br>无需实体卡·手表也能打电话</p>
       <div class="dibu"><img src="./../assets/img/explain.png" alt="" srcset=""></div>
     </div>
+    <audio id="bgMusic" preload="auto" class="success" ref="audio" src="http://esimwx.10010sh.cn:8999/html/clockDial/music.mp3" autoplay loop></audio>
   </div>
 </template>
 
 <script>
-import { Button, Image, Tab, Tabs, Swipe, SwipeItem } from 'vant'
+import { Button, Image, Tab, Tabs, Swipe, SwipeItem, Icon } from 'vant'
 
 export default {
   name: 'home',
@@ -62,7 +67,14 @@ export default {
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
     [Swipe.name]: Swipe,
-    [SwipeItem.name]: SwipeItem
+    [SwipeItem.name]: SwipeItem,
+    [Icon.name]: Icon
+  },
+  mounted() {
+    this.audioAutoPlay('bgMusic');
+    // this.$nextTick( () => {
+    //   this.$refs.audio.play()
+    // })
   },
   data () {
     return {
@@ -71,9 +83,9 @@ export default {
         {
           swiperSrc: require('./../assets/img/bp1.jpg')
         },
-        {
-          swiperSrc: require('./../assets/img/bp2.jpg')
-        },
+        // {
+        //   swiperSrc: require('./../assets/img/bp2.jpg')
+        // },
         {
           swiperSrc: require('./../assets/img/bp3.jpg')
         },{
@@ -82,27 +94,49 @@ export default {
           swiperSrc: require('./../assets/img/bp5.jpg')
         },{
           swiperSrc: require('./../assets/img/bp6.jpg')
+        },{
+          swiperSrc: require('./../assets/img/bp7.jpg')
+        },
+        {
+          swiperSrc: require('./../assets/img/bp8.jpg')
+        },
+        // {
+        //   swiperSrc: require('./../assets/img/bp9.jpg')
+        // },
+        {
+          swiperSrc: require('./../assets/img/bp10.jpg')
         }
       ],
       swiperImages2: [
         // 首页的轮播图圆
         {
-          swiperSrc2: require('./../assets/img/bp1-1.png')
+          swiperSrc: require('./../assets/img/bp1-1.png')
         },
+        // {
+        //   swiperSrc: require('./../assets/img/bp2-1.png')
+        // },
         {
-          swiperSrc2: require('./../assets/img/bp2-1.png')
+          swiperSrc: require('./../assets/img/bp3-1.png')
+        },{
+          swiperSrc: require('./../assets/img/bp4-1.png')
+        },{
+          swiperSrc: require('./../assets/img/bp5-1.png')
+        },{
+          swiperSrc: require('./../assets/img/bp6-1.png')
+        },{
+          swiperSrc: require('./../assets/img/bp7-1.png')
+        },{
+          swiperSrc: require('./../assets/img/bp8-1.png')
         },
+        // {
+        //   swiperSrc: require('./../assets/img/bp9-1.png')
+        // },
         {
-          swiperSrc2: require('./../assets/img/bp3-1.png')
-        },{
-          swiperSrc2: require('./../assets/img/bp4-1.png')
-        },{
-          swiperSrc2: require('./../assets/img/bp5-1.png')
-        },{
-          swiperSrc2: require('./../assets/img/bp6-1.png')
+          swiperSrc: require('./../assets/img/bp10-1.png')
         }
       ],
-      imgIndex: 0
+      imgIndex: 0,
+      type: 'square'
     }
   },
   methods: {
@@ -111,7 +145,12 @@ export default {
     },
     handleClick () {
       let url = '';
-      let currentImg = this.swiperImages.find((x, index) => this.imgIndex === index);
+      var currentImg = {};
+      if (this.type === 'square') {
+        currentImg = this.swiperImages.find((x, index) => this.imgIndex === index);
+      } else {
+        currentImg = this.swiperImages2.find((x, index) => this.imgIndex === index);
+      }
       this.downloadImg(currentImg.swiperSrc);
     },
     downloadImg(src) {
@@ -120,6 +159,19 @@ export default {
       link.setAttribute('target', '_blank');
       link.href = src;
       link.click();
+    },
+    audioAutoPlay(id) {
+      var audio = document.getElementById(id);
+      audio.play();
+      document.addEventListener("WeixinJSBridgeReady", function () {
+          audio.play();
+      }, false);
+      document.addEventListener('YixinJSBridgeReady', function () {
+          audio.play();
+      }, false);
+    },
+    handleTabChange(tab) {
+      this.type = tab.name;
     }
   }
 }
@@ -163,47 +215,55 @@ export default {
     text-align: center;
     margin-top: 20px;
   }
+  .van-swipe__indicator{
+    background-color: #020202;
+  }
   .backg{
     background-image: url('./../assets/img/bpbg.png');
     height: 550px;
     width: 610px;
     background-size:610px 550px;
     margin: -50px auto 0;
+    // .van-icon {
+    //   margin-top: 250px;
+    // }
+    // .van-icon.van-icon-arrow-left{
+    //   float: left;
+    //   margin-left: 40px;
+    // }
+    // .van-icon.van-icon-arrow {
+    //   float: right;
+    //   margin-right: 40px;
+    // }
     .onlineguidance-img {
-      width: 600px;
-      height: 510px;
+      height: 500px;
       // margin:0 auto;
       .img1 {
-        height: 215px;
+        height: 218px;
         width: 187px;
-        margin-top: 153px;
-        margin-right: 10px;
+        margin-top: 151px;
+        margin-right: 20px;
         border-radius: 20px;
       }
     }
     .kuang { 
       font-size: 26px;
-      width: 300px;
       }
   }
   .backg2{
     background-image: url('./../assets/img/bpbg2.png');
-    // height: 550px;
-    // width: 610px;
-    // background-size:610px 550px;
-    // margin: -50px auto 0;
     .img2 {
       height: 270px;
       width: 270px;
-      margin-top: 125px;
-      margin-right: 10px;
+      margin-top: 123px;
+      margin-right: 20px;
       border-radius: 250px;
     }
   }
   .center {
     text-align: center;
     height: 100%;
-    margin-top: 60px;
+    margin-top: 40px;
     .center-1 {
       padding: 0 200px;
       .lf {
