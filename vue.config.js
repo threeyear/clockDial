@@ -6,7 +6,7 @@ function resolve(dir) {
 
 module.exports = {
     lintOnSave: true,
-    publicPath: process.env.NODE_ENV === 'production' ? '/www/clockDial' : './',
+    publicPath: process.env.NODE_ENV === 'production' ? '/html/clockDial' : './',
     //  publicPath 也就是在npm run build的时候，判断如果是 npm run build 那么就在所有的静态文件之前 加上/orderschedule/orderschedule_app/  + 之前的路径
     productionSourceMap: process.env.NODE_ENV !== 'production',
     css: {

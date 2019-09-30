@@ -5,8 +5,7 @@
     </div>
     <van-tabs type="card" @change="handleTabChange">
       <van-tab title="方形" name="square">
-        <div class="backg">
-          <!-- <van-icon size="30px" name="arrow-left"/><van-icon size="30px" name="arrow"/> -->
+        <!-- <div class="backg">
           <div class="onlineguidance-img">
             <van-swipe indicator-color="#000" @change="onChange">
               <van-swipe-item v-for="(item, index) in swiperImages" :key="index">
@@ -19,15 +18,12 @@
               </div>
             </van-swipe>
         </div>
-        
         <span class="kuang">长按保存图片</span>
-        <!-- <img class="kuang" src="./../assets/img/button.gif" alt="" @click="handleClick"> -->
-        </div>
+        </div> -->
       </van-tab>
       <van-tab title="圆形" name="circle">
-        <div class="backg backg2">
+        <!-- <div class="backg backg2">
           <div class="onlineguidance-img">
-            <!-- <van-icon size="30px" name="arrow-left"/><van-icon size="30px" name="arrow"/> -->
             <van-swipe indicator-color="#000" @change="onChange">
               <van-swipe-item v-for="(item, index) in swiperImages2" :key="index">
                 <a :href="item.swiperSrc">
@@ -35,12 +31,25 @@
                 </a>
               </van-swipe-item>
             </van-swipe>
-            
         </div>
         <span class="kuang">长按保存图片</span>
-        <!-- <img class="kuang" src="./../assets/img/button.gif" alt="" @click="handleClick"> -->
-        </div>
+        </div> -->
       </van-tab>
+      <div class="backg" :class="[ type === 'square' ? '' : 'backg2']">
+          <div class="onlineguidance-img">
+            <van-swipe indicator-color="#000" @change="onChange">
+              <van-swipe-item v-for="(item, index) in swiperImages" :key="index">
+                <a :href="item.swiperSrc">
+                  <img class="img1" :src="item.swiperSrc" alt="加载失败" />
+                </a>
+              </van-swipe-item>
+              <div>
+                <img src="" alt="" srcset="">
+              </div>
+            </van-swipe>
+        </div>
+        <span class="kuang">长按保存图片</span>
+        </div>
     </van-tabs>
     <div class="center">
       <p class="center-1">
@@ -53,11 +62,12 @@
       <div class="dibu"><img src="./../assets/img/explain.png" alt="" srcset=""></div>
     </div>
     <audio id="bgMusic" preload="auto" class="success" ref="audio" src="http://esimwx.10010sh.cn:8999/html/clockDial/music.mp3" autoplay loop></audio>
+    <img src="./../assets/img/bpbg2.png" alt="" srcset="" style="display: none;">
   </div>
 </template>
 
 <script>
-import { Button, Image, Tab, Tabs, Swipe, SwipeItem, Icon } from 'vant'
+import { Button, Image, Tab, Tabs, Swipe, SwipeItem} from 'vant'
 
 export default {
   name: 'home',
@@ -67,14 +77,12 @@ export default {
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
     [Swipe.name]: Swipe,
-    [SwipeItem.name]: SwipeItem,
-    [Icon.name]: Icon
+    [SwipeItem.name]: SwipeItem
   },
   mounted() {
     this.audioAutoPlay('bgMusic');
-    // this.$nextTick( () => {
-    //   this.$refs.audio.play()
-    // })
+    window.localStorage.setItem('swiperImages', JSON.stringify(this.swiperImages));
+    window.localStorage.setItem('swiperImages2', JSON.stringify(this.swiperImages2));
   },
   data () {
     return {
@@ -83,9 +91,6 @@ export default {
         {
           swiperSrc: require('./../assets/img/bp1.jpg')
         },
-        // {
-        //   swiperSrc: require('./../assets/img/bp2.jpg')
-        // },
         {
           swiperSrc: require('./../assets/img/bp3.jpg')
         },{
@@ -100,9 +105,6 @@ export default {
         {
           swiperSrc: require('./../assets/img/bp8.jpg')
         },
-        // {
-        //   swiperSrc: require('./../assets/img/bp9.jpg')
-        // },
         {
           swiperSrc: require('./../assets/img/bp10.jpg')
         }
@@ -112,9 +114,6 @@ export default {
         {
           swiperSrc: require('./../assets/img/bp1-1.png')
         },
-        // {
-        //   swiperSrc: require('./../assets/img/bp2-1.png')
-        // },
         {
           swiperSrc: require('./../assets/img/bp3-1.png')
         },{
@@ -128,9 +127,6 @@ export default {
         },{
           swiperSrc: require('./../assets/img/bp8-1.png')
         },
-        // {
-        //   swiperSrc: require('./../assets/img/bp9-1.png')
-        // },
         {
           swiperSrc: require('./../assets/img/bp10-1.png')
         }
@@ -171,7 +167,12 @@ export default {
       }, false);
     },
     handleTabChange(tab) {
-      this.type = tab.name;
+      if (tab === 'square') {
+        this.swiperImages = JSON.parse(window.localStorage.getItem('swiperImages'));
+      } else {
+        this.swiperImages = JSON.parse(window.localStorage.getItem('swiperImages2'));
+      }
+      this.type = tab;
     }
   }
 }
@@ -224,20 +225,8 @@ export default {
     width: 610px;
     background-size:610px 550px;
     margin: -50px auto 0;
-    // .van-icon {
-    //   margin-top: 250px;
-    // }
-    // .van-icon.van-icon-arrow-left{
-    //   float: left;
-    //   margin-left: 40px;
-    // }
-    // .van-icon.van-icon-arrow {
-    //   float: right;
-    //   margin-right: 40px;
-    // }
     .onlineguidance-img {
       height: 500px;
-      // margin:0 auto;
       .img1 {
         height: 218px;
         width: 187px;
@@ -245,21 +234,33 @@ export default {
         margin-right: 20px;
         border-radius: 20px;
       }
+    }&.backg2 {
+      background-image: url('./../assets/img/bpbg2.png');
+      .onlineguidance-img {
+        height: 500px;
+        .img1 {
+          height: 260px;
+          width: 260px;
+          margin-top: 128px;
+          margin-right: 19px;
+          border-radius: 250px;
+        }
+      }
     }
     .kuang { 
       font-size: 26px;
       }
   }
-  .backg2{
-    background-image: url('./../assets/img/bpbg2.png');
-    .img2 {
-      height: 270px;
-      width: 270px;
-      margin-top: 123px;
-      margin-right: 20px;
-      border-radius: 250px;
-    }
-  }
+  // .backg2{
+  //   background-image: url('./../assets/img/bpbg2.png');
+  //   .img2 {
+  //     height: 270px;
+  //     width: 270px;
+  //     margin-top: 123px;
+  //     margin-right: 20px;
+  //     border-radius: 250px;
+  //   }
+  // }
   .center {
     text-align: center;
     height: 100%;
@@ -283,7 +284,6 @@ export default {
       margin-top: 30px;
     }
     .neirong {
-      // width: 600px;
       line-height: 2
     }
     .dibu {
