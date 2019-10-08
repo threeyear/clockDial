@@ -8,18 +8,10 @@ const routes = [
     path: '/',
     name: 'home',
     meta: {
-      title: '首页'
+      title: '我对祖国"表"个白'
     },
     component: () => import('./views/Home.vue')
   }
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   meta: {
-  //     title: '关于我们'
-  //   },
-  //   component: () => import('./views/About.vue')
-  // }
 ]
 
 // add route path

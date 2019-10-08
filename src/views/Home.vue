@@ -2,6 +2,9 @@
   <div class="home">
     <div class="banner">
       <img src="./../assets/img/theme.png" alt="" srcset="">
+      <a href="javascipt:void()" class="music" @click="operateMusic" :class="[musicState === 'play' ? 'play' : 'pause' ]">
+        <img src='./../assets/img/music.png' alt="加载失败" />
+      </a>
     </div>
     <van-tabs type="card" @change="handleTabChange">
       <van-tab title="方形" name="square">
@@ -67,22 +70,28 @@
 </template>
 
 <script>
-import { Button, Image, Tab, Tabs, Swipe, SwipeItem} from 'vant'
-
+import { Button, Image, Tab, Tabs, Swipe, SwipeItem, Toast } from 'vant'
+import wxShare from '../mixins/wechat' 
 export default {
   name: 'home',
+  mixins: [wxShare],
   components: {
     [Button.name]: Button,
     [Image.name]: Image,
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
     [Swipe.name]: Swipe,
-    [SwipeItem.name]: SwipeItem
+    [SwipeItem.name]: SwipeItem,
+    [Toast.name]: Toast
   },
   mounted() {
     this.audioAutoPlay('bgMusic');
     window.localStorage.setItem('swiperImages', JSON.stringify(this.swiperImages));
     window.localStorage.setItem('swiperImages2', JSON.stringify(this.swiperImages2));
+  },
+  created(){
+    // 设置
+    this.setShare()
   },
   data () {
     return {
@@ -132,10 +141,21 @@ export default {
         }
       ],
       imgIndex: 0,
-      type: 'square'
+      type: 'square',
+      musicState: 'play'
     }
   },
   methods: {
+    setShare() {
+      const shareInfo = {
+          title: '我对祖国"表"个白',
+          desc: '国庆节快乐！！',
+          link: window.location.href,
+          img: '../assets/img/bp1.jpg'
+        }
+        // mixins
+        this.wechatShare(shareInfo)
+    },
     onChange (index) {
       this.imgIndex = index;
     },
@@ -173,18 +193,58 @@ export default {
         this.swiperImages = JSON.parse(window.localStorage.getItem('swiperImages2'));
       }
       this.type = tab;
+    },
+    operateMusic() {
+      var audio = document.getElementById('bgMusic');
+      if (this.musicState === 'play') {
+        audio.pause();
+        this.musicState = 'pause';
+      } else {
+        audio.play();
+        this.musicState = 'play';
+      }
     }
   }
 }
 </script>
 
 <style lang="scss">
+@keyframes rotateMusic {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .home {
   width: 750px;
   background-image: url('./../assets/img/bg.jpg');
   background-size: 750px 100%;
-  .banner{
+  .banner {
+    position: relative;
     padding: 100px 156px 50px;
+    .music {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      right: 50px;
+      top: 50px;
+      cursor: pointer;
+      animation: rotateMusic 3.6s linear infinite;
+      animation-fill-mode: forwards;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      &.play {
+        animation-play-state: running;
+      }
+      &.pause {
+        animation-play-state: paused;
+      }
+    }
     img{
       width: 437px;
       height: 278px;
@@ -249,7 +309,7 @@ export default {
     }
     .kuang { 
       font-size: 26px;
-      }
+    }
   }
   // .backg2{
   //   background-image: url('./../assets/img/bpbg2.png');
@@ -290,7 +350,7 @@ export default {
       margin-bottom: 180px;
       img {
         width: 640px;
-        height: 590px;
+        // height: 590px;
       }
     }
   }
